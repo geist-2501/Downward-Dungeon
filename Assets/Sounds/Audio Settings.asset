@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32a133408f3db3747b7f517ecc7e43b9, type: 3}
+  m_Name: Audio Settings
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Destroy
+    clip: {fileID: 8300000, guid: 602037dc676fac64299fca2fe5345afe, type: 3}
+    volume: 0.2
+    pitch: 1
+    src: {fileID: 0}
+  - name: Footstep
+    clip: {fileID: 8300000, guid: 2c977fd4c2092bf4f85414bcc81817fe, type: 3}
+    volume: 1
+    pitch: 1
+    src: {fileID: 0}
+  - name: Hurt
+    clip: {fileID: 8300000, guid: 1db9acab30ce8dc4f9dc9ca94ea50f65, type: 3}
+    volume: 1
+    pitch: 1
+    src: {fileID: 0}
+  - name: Land
+    clip: {fileID: 8300000, guid: b3c269b005be15d488d7d3b51b04abd3, type: 3}
+    volume: 1
+    pitch: 1
+    src: {fileID: 0}
+  - name: Land Light
+    clip: {fileID: 8300000, guid: 63bc261b3c90e5a469f18537fddcf63f, type: 3}
+    volume: 1
+    pitch: 1
+    src: {fileID: 0}
+  - name: Jump
+    clip: {fileID: 8300000, guid: 847bf49584599414e84773ac003ea371, type: 3}
+    volume: 0.625
+    pitch: 0.6
+    src: {fileID: 0}
+  - name: Fall
+    clip: {fileID: 8300000, guid: b92cf324c8744f7429a4f3c36fd3728c, type: 3}
+    volume: 1
+    pitch: 1
+    src: {fileID: 0}
+  - name: Pickup
+    clip: {fileID: 8300000, guid: 943ff41122d338f4a9ce20c121c916fc, type: 3}
+    volume: 1
+    pitch: 1
+    src: {fileID: 0}
+  - name: Crunch
+    clip: {fileID: 8300000, guid: 2fba0f8844dcde146bd448f585f1a009, type: 3}
+    volume: 0.667
+    pitch: 1
+    src: {fileID: 0}
+  - name: Beep
+    clip: {fileID: 8300000, guid: 801622a92d604e343ad2a47283cae90b, type: 3}
+    volume: 1
+    pitch: 1
+    src: {fileID: 0}
+  - name: Open Door
+    clip: {fileID: 8300000, guid: 07d9d77e4d356b74a846d2eb5e03a0af, type: 3}
+    volume: 1
+    pitch: 1
+    src: {fileID: 0}
+  - name: Big Hurt
+    clip: {fileID: 8300000, guid: 7122d2faa41cee5429a6f6fc7f3e6fb7, type: 3}
+    volume: 1
+    pitch: 1
+    src: {fileID: 0}
+  - name: Beep 2
+    clip: {fileID: 8300000, guid: 97cfae3738b3e75428b35b4229687b16, type: 3}
+    volume: 0.4
+    pitch: 1
+    src: {fileID: 0}
+  - name: Attack
+    clip: {fileID: 8300000, guid: 2bec22d2d97505848becc200acff9d8e, type: 3}
+    volume: 0.6
+    pitch: 1
+    src: {fileID: 0}

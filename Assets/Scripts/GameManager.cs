@@ -70,7 +70,12 @@ public class GameManager : MonoBehaviour
         if (furthestCheckpointProgress < 2) { furthestCheckpointProgress = 2; }
     }
 
-    //Init prefs.
+
+    /// <summary>
+    /// Initialises a key in the player prefs slot.
+    /// </summary>
+    /// <param name="_key">Key to initialise</param>
+    /// <returns>The value, if one already existed.</returns>
     private int InitializePref(string _key)
     {
         int i;

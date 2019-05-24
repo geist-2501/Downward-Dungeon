@@ -310,16 +310,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 3304356028227181128, guid: 1a5c733c66064394bbf1387b741a23cc,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -5.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3304356028227181128, guid: 1a5c733c66064394bbf1387b741a23cc,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 2252661601905045197, guid: 1a5c733c66064394bbf1387b741a23cc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15205,6 +15195,16 @@ PrefabInstance:
       propertyPath: m_CompositePaths.m_Paths.Array.data[3].Array.data[7].y
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3197530965155975240, guid: 1a5c733c66064394bbf1387b741a23cc,
+        type: 3}
+      propertyPath: useMomentum
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3197530965155975240, guid: 1a5c733c66064394bbf1387b741a23cc,
+        type: 3}
+      propertyPath: horizontalDampening
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3211469952657647397, guid: 1a5c733c66064394bbf1387b741a23cc,
         type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.size
@@ -15259,6 +15259,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].y
       value: 11.399318
+      objectReference: {fileID: 0}
+    - target: {fileID: 8125622343434249854, guid: 1a5c733c66064394bbf1387b741a23cc,
+        type: 3}
+      propertyPath: orthographic size
+      value: 4.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a5c733c66064394bbf1387b741a23cc, type: 3}

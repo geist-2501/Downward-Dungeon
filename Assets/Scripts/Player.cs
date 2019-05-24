@@ -22,7 +22,13 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpMinPitch = 0.5f;
     [SerializeField] float joystickDead = 0.3f;
 
+    // Jump timer.
+    float jumpPressedRemember = 0f;
+    [Range(0.0f, 1.0f)] [SerializeField] float jumpPressedRememberTime = 0.2f;
 
+    // IsGrounded timer.
+    float isGroundedRemember = 0f;
+    [Range(0.0f, 1.0f)] [SerializeField] float isGroundedRememberTime = 0.1f;
 
     [Header("Objects")]
     [SerializeField] GameObject targetSpriteGameObj;
@@ -43,6 +49,8 @@ public class Player : MonoBehaviour
     float currentAirbornTime = 0f;
 
     bool joystickJumpFlipFlop;
+
+    float d; // Delta time.
 
     //States.
     bool isClimbing = false;
@@ -91,8 +99,8 @@ public class Player : MonoBehaviour
         bodyCol = GetComponent<Collider2D>();
         targetSprite = targetSpriteGameObj.GetComponent<SpriteRenderer>();
 
+        //Col reset required after changing friction.
         physicsMat.friction = 0f;
-
         bodyCol.enabled = false;
         bodyCol.enabled = true;
 
@@ -108,6 +116,9 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        //Cache delta time.
+        d = Time.deltaTime;
+
         if (bodyCol.IsTouchingLayers(hazardLayerMask) && isAlive) { Die(null, false); } //Environmental death.
         //Death by enemy is handled by OnCollisionEnter2D().
 
@@ -132,7 +143,7 @@ public class Player : MonoBehaviour
         DetectClimbing();
         DetectPhasing();
 
-        if (skillHate) { Attack(); }
+        if (skillHate) { DetectAttack(); }
 
         if (isBusy) { return; }
 
@@ -144,6 +155,10 @@ public class Player : MonoBehaviour
     }
 
 
+
+    /// <summary>
+    /// Gets current input from player.
+    /// </summary>
     private void DetectInput()
     {
         float h;
@@ -151,29 +166,42 @@ public class Player : MonoBehaviour
         float hRaw;
         float vRaw;
         
+        //TODO: Support controllers.
+
+        //Get dampened axis.
         h = Input.GetAxis("Horizontal");
         v = Input.GetAxis("Vertical");
+
+        //Get raw axis.
         hRaw = Input.GetAxisRaw("Horizontal");
         vRaw = Input.GetAxisRaw("Vertical");
+
+        //Combine into control vectors.
         playerInput = new Vector2(h, v);
         playerInputRaw = new Vector2(hRaw, vRaw);
+
+        //Get flags.
         jumpFlag = Input.GetButtonDown("Jump");
         jumpHoldFlag = Input.GetButton("Jump");
         escFlag = Input.GetButtonDown("Cancel");
         attackFlag = Input.GetButtonDown("Fire1");
-        
-
-        //if (jumpFlag) { Debug.Log("Jump Flag Active"); }
     }
 
+
+
+    /// <summary>
+    /// Read the players actions in regard to climbing.
+    /// </summary>
     private void DetectClimbing()
     {
+        //Is the player trying to climb on a climbable surface?
         if (playerInputRaw.y > 0.9f && detectorCol.IsTouchingLayers(climbableLayerMask))
         {
             rb.gravityScale = 0;
             isClimbing = true;
         }
 
+        //Is the player trying to dismount.
         if (!detectorCol.IsTouchingLayers(climbableLayerMask) || jumpFlag)
         {
             if (jumpFlag && isClimbing) { jumpOffClimbingFlag = true; }
@@ -184,21 +212,28 @@ public class Player : MonoBehaviour
         anim.SetBool("isClimbing", isClimbing);
     }
 
+
+
+    /// <summary>
+    /// Detect if the player is trying to phase.
+    /// </summary>
     private void DetectPhasing()
     {
+        //Is the player trying to phase through a phasable surface.
         if (playerInputRaw.y < -0.9f && jumpFlag && feetCol.IsTouchingLayers(phaseableLayerMask))
         {
             jumpFlag = false;
             isPhasing = true;
         }
-        else if (headCol.IsTouchingLayers(phaseableLayerMask))
+        else if (headCol.IsTouchingLayers(phaseableLayerMask)) //Else if jumping through a phaseable layer.
         {
+            //TODO: Replace with raycasts.
             isPhasing = true;
         }
 
         if (isPhasing && detectorCol.IsTouchingLayers(phaseableLayerMask))
         {
-            //keep phasing
+            //keep phasing.
         }
         else if (isPhasing && !(detectorCol.IsTouchingLayers(phaseableLayerMask) || headCol.IsTouchingLayers(phaseableLayerMask)))
         {
@@ -209,7 +244,11 @@ public class Player : MonoBehaviour
     }
 
 
-    private void Attack()
+
+    /// <summary>
+    /// Detects if the player is attacking.
+    /// </summary>
+    private void DetectAttack()
     {
         if (attackFlag)
         {
@@ -222,6 +261,10 @@ public class Player : MonoBehaviour
     }
 
 
+
+    /// <summary>
+    /// Handle jumping.
+    /// </summary>
     private void Jump()
     {
         //Play a sound everytime the player lands.
@@ -235,8 +278,25 @@ public class Player : MonoBehaviour
 
         anim.SetBool("isGrounded", isGrounded);
 
-        if ((isGrounded || jumpOffClimbingFlag) && jumpFlag)
+        // These timers give a little give with the responsiveness of the character.
+        // I.e. if the player tries to jump a split second too late, they can still jump. It
+        // just feels better.
+
+        // Deal with jump timer.
+        jumpPressedRemember -= d;
+        if (jumpFlag) { jumpPressedRemember = jumpPressedRememberTime; }
+
+        // Deal with isGrounded timer.
+        isGroundedRemember -= d;
+        if (isGrounded) { isGroundedRemember = isGroundedRememberTime; }
+
+        // Handle a jump.
+        if ((isGroundedRemember > 0 || jumpOffClimbingFlag) && (jumpPressedRemember > 0))
         {
+            //Reset timers.
+            isGroundedRemember = 0;
+            jumpPressedRemember = 0;
+
             jumpOffClimbingFlag = false;
             am.ChangePitch("Jump", Random.Range(jumpMinPitch, jumpMaxPitch));
             am.Play("Jump");
@@ -249,7 +309,7 @@ public class Player : MonoBehaviour
 
         if ((currentAirbornTime >= 0 && currentAirbornTime <= maxAirbornDuration) && jumpHoldFlag)
         {
-            currentAirbornTime += Time.deltaTime;
+            currentAirbornTime += d;
             rb.gravityScale = jumpGravScale;
         }
         else

@@ -9,7 +9,10 @@ public class Player : MonoBehaviour
     [SerializeField] float movementSpeed = 11f;
     [SerializeField] float climbSpeedv = 8f;
     [SerializeField] float climbSpeedh = 8f;
+
     [SerializeField] float jumpForce = 7f;
+    [Range(0.0f, 1.0f)] [SerializeField] float jumpCutHieght = 0.5f;
+    
     [SerializeField] float deathKickback = 5f;
     [SerializeField] float jumpVolDivisionFactor = 3f;
     [SerializeField] AnimationCurve attackMotion; //Sets velocity and time for an attack
@@ -38,11 +41,15 @@ public class Player : MonoBehaviour
     [SerializeField] PhysicsMaterial2D physicsMat;
     [SerializeField] GameObject mobileInputLayer;
 
+    [Space(5f)]
+    [Header("Settings")]
+
     //Data.
     Vector2 playerInput;
     Vector2 playerInputRaw;
     bool jumpFlag;
     bool jumpHoldFlag;
+    bool jumpReleaseFlag;
     bool escFlag;
     bool attackFlag;
     bool direction; // -1 left, 1 right.
@@ -183,6 +190,8 @@ public class Player : MonoBehaviour
         //Get flags.
         jumpFlag = Input.GetButtonDown("Jump");
         jumpHoldFlag = Input.GetButton("Jump");
+        jumpReleaseFlag = Input.GetButtonUp("Jump");
+
         escFlag = Input.GetButtonDown("Cancel");
         attackFlag = Input.GetButtonDown("Fire1");
     }
@@ -307,15 +316,13 @@ public class Player : MonoBehaviour
 
         if (isClimbing) { return; } //Stop the following statement changing grav scale when climbing.
 
-        if ((currentAirbornTime >= 0 && currentAirbornTime <= maxAirbornDuration) && jumpHoldFlag)
+        // Let the amount of time the spacebar is held for translate to the airtime. 
+        if (jumpReleaseFlag)
         {
-            currentAirbornTime += d;
-            rb.gravityScale = jumpGravScale;
-        }
-        else
-        {
-            rb.gravityScale = gravScale;
-            currentAirbornTime = -1;
+            if (rb.velocity.y > 0)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpCutHieght);
+            }
         }
 
         jumpFlag = false;
@@ -323,6 +330,11 @@ public class Player : MonoBehaviour
 
     }
 
+
+
+    /// <summary>
+    /// Handle movement.
+    /// </summary>
     private void Move()
     {
         Vector2 playerVel;
@@ -333,7 +345,11 @@ public class Player : MonoBehaviour
         }
         else
         {
-            playerVel = new Vector2(playerInput.x * movementSpeed, rb.velocity.y);
+
+            playerVel = new Vector2(playerInput.x * movementSpeed, rb.velocity.y);            
+            
+
+            //Make sure the sprite is always facing forwards in the event of no input.
             if (playerInput.x != 0)
             {
                 targetSpriteGameObj.transform.localScale = new Vector3(Mathf.Sign(playerInput.x), 1, 1);

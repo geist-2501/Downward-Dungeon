@@ -307,11 +307,11 @@ public class Player : MonoBehaviour
         // just feels better.
 
         // Deal with jump timer.
-        jumpPressedRemember -= d;
+        jumpPressedRemember -= fd;
         if (jumpFlag) { jumpPressedRemember = jumpPressedRememberTime; }
 
         // Deal with isGrounded timer.
-        isGroundedRemember -= d;
+        isGroundedRemember -= fd;
         if (isGrounded) { isGroundedRemember = isGroundedRememberTime; }
 
         // Handle a jump.
@@ -356,12 +356,12 @@ public class Player : MonoBehaviour
 
         if (isClimbing)
         {
-            playerVel = new Vector2(playerInput.x * climbSpeedh, playerInputRaw.y * climbSpeedv);
+            playerVel = new Vector2(playerInput.x * climbSpeedh * fd, playerInputRaw.y * climbSpeedv * fd);
         }
         else
         {
 
-            playerVel = new Vector2(playerInput.x * movementSpeed, rb.velocity.y);
+            playerVel = new Vector2(playerInput.x * movementSpeed * fd, rb.velocity.y);
 
 
             //Make sure the sprite is always facing forwards in the event of no input.

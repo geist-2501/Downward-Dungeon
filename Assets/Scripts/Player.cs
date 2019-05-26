@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] float jumpForce = 7f;
     [Range(0.0f, 1.0f)] [SerializeField] float jumpCutHieght = 0.5f;
-    
+
     [SerializeField] float deathKickback = 5f;
     [SerializeField] float jumpVolDivisionFactor = 3f;
     [SerializeField] AnimationCurve attackMotion; //Sets velocity and time for an attack
@@ -57,7 +57,8 @@ public class Player : MonoBehaviour
 
     bool joystickJumpFlipFlop;
 
-    float d; // Delta time.
+    float d;  // Delta time.
+    float fd; // Fixed delta time.
 
     //States.
     bool isClimbing = false;
@@ -121,6 +122,9 @@ public class Player : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Handle all non-physics related stuff.
+    /// </summary>
     void Update()
     {
         //Cache delta time.
@@ -142,23 +146,34 @@ public class Player : MonoBehaviour
             attackFlag = false;
         }
 
-        Debug.DrawRay(targetSpriteGameObj.transform.position, rb.velocity);
-
-        if (isBusy) { return; }
-
-
-        DetectClimbing();
-        DetectPhasing();
-
-        if (skillHate) { DetectAttack(); }
-
-        if (isBusy) { return; }
-
-        Move();
-        Jump();
-
         HandleMisc(); //Quitting and stuff.
 
+    }
+
+
+    /// <summary>
+    /// Handle all physics related stuff.
+    /// </summary>
+    private void FixedUpdate()
+    {
+        //Cache fixed delta time.
+        fd = Time.fixedDeltaTime;
+
+        if (!isBusy)
+        {
+            DetectClimbing();
+            DetectPhasing();
+
+            Move();
+            Jump();
+        }
+
+
+        //Always reset all flags.
+        jumpFlag = false;
+        jumpReleaseFlag = false;
+        escFlag = false;
+        attackFlag = false;
     }
 
 
@@ -172,7 +187,7 @@ public class Player : MonoBehaviour
         float v;
         float hRaw;
         float vRaw;
-        
+
         //TODO: Support controllers.
 
         //Get dampened axis.
@@ -187,13 +202,13 @@ public class Player : MonoBehaviour
         playerInput = new Vector2(h, v);
         playerInputRaw = new Vector2(hRaw, vRaw);
 
-        //Get flags.
-        jumpFlag = Input.GetButtonDown("Jump");
+        //Get flags, and hold them until fixed update receives them.
+        jumpFlag = Input.GetButtonDown("Jump") ? true : jumpFlag;
         jumpHoldFlag = Input.GetButton("Jump");
-        jumpReleaseFlag = Input.GetButtonUp("Jump");
+        jumpReleaseFlag = Input.GetButtonUp("Jump") ? true : jumpReleaseFlag;
 
-        escFlag = Input.GetButtonDown("Cancel");
-        attackFlag = Input.GetButtonDown("Fire1");
+        escFlag = Input.GetButtonDown("Cancel") ? true : escFlag;
+        attackFlag = Input.GetButtonDown("Fire1") ? true : attackFlag;
     }
 
 
@@ -346,8 +361,8 @@ public class Player : MonoBehaviour
         else
         {
 
-            playerVel = new Vector2(playerInput.x * movementSpeed, rb.velocity.y);            
-            
+            playerVel = new Vector2(playerInput.x * movementSpeed, rb.velocity.y);
+
 
             //Make sure the sprite is always facing forwards in the event of no input.
             if (playerInput.x != 0)
@@ -478,15 +493,4 @@ public class Player : MonoBehaviour
         isBusy = false;
     }
 
-    public void AndroidTrigJump()
-    {
-        jumpFlag = true;
-        jumpHoldFlag = true;
-    }
-
-    public void AndroidReleaseJump()
-    {
-        jumpHoldFlag = false;
-    }
-    
 }

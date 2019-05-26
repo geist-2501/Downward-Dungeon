@@ -7,23 +7,18 @@ public class Player : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] float movementSpeed = 11f;
-    [SerializeField] float climbSpeedv = 8f;
-    [SerializeField] float climbSpeedh = 8f;
-
+    [SerializeField] Vector2 climbSpeed = new Vector2(8f, 8f);
     [SerializeField] float jumpForce = 7f;
-    [Range(0.0f, 1.0f)] [SerializeField] float jumpCutHieght = 0.5f;
-
+    [Range(0.0f, 1.0f)] [SerializeField] float jumpCutHeightMult = 0.5f;
+    [Space(5f)]
     [SerializeField] float deathKickback = 5f;
-    [SerializeField] float jumpVolDivisionFactor = 3f;
-    [SerializeField] AnimationCurve attackMotion; //Sets velocity and time for an attack
-    [SerializeField] float attackRecovery = 0.5f;
     [SerializeField] Color normalColour;
-    [SerializeField] Color attackColour;
-    [SerializeField] float maxAirbornDuration;
-    [SerializeField] float jumpGravScale = 0.8f;
+    [Space(5f)]
+    [SerializeField] float jumpVolDivisionFactor = 3f;
     [SerializeField] float jumpMaxPitch = 0.7f;
     [SerializeField] float jumpMinPitch = 0.5f;
-    [SerializeField] float joystickDead = 0.3f;
+
+    [Space(5f)]
 
     // Jump timer.
     float jumpPressedRemember = 0f;
@@ -39,10 +34,6 @@ public class Player : MonoBehaviour
     [SerializeField] Collider2D headCol;
     [SerializeField] Collider2D detectorCol;
     [SerializeField] PhysicsMaterial2D physicsMat;
-    [SerializeField] GameObject mobileInputLayer;
-
-    [Space(5f)]
-    [Header("Settings")]
 
     //Data.
     Vector2 playerInput;
@@ -52,21 +43,21 @@ public class Player : MonoBehaviour
     bool jumpReleaseFlag;
     bool escFlag;
     bool attackFlag;
-    bool direction; // -1 left, 1 right.
-    float currentAirbornTime = 0f;
 
-    bool joystickJumpFlipFlop;
+    bool direction; // -1 left, 1 right.
+
+    float gravScale;    
 
     float d;  // Delta time.
     float fd; // Fixed delta time.
 
     //States.
+    [HideInInspector] public bool isAlive = true;
+    [HideInInspector] public bool isParalysed = false; //isParalysed is a less severe version of disabling isAlive. 
+    [HideInInspector] public bool isGrounded = false;
     bool isClimbing = false;
     bool jumpOffClimbingFlag = false;
-    public bool isAlive = true;
-    public bool isParalysed = false; //isParalysed is a less severe version of disabling isAlive. 
     bool isPhasing = false;
-    public bool isGrounded = false;
     bool isBusy = false;
     bool isAttacking = false;
     /* 
@@ -75,26 +66,22 @@ public class Player : MonoBehaviour
     is used to prevent input during the attack and its recovery 
     */
 
-    //Skills.
-    public static bool skillHate = false;
-
-
     //Cached component refs.
-    private Rigidbody2D rb;
-    private Animator anim;
-    private Collider2D bodyCol;
-    private SpriteRenderer targetSprite;
+    Rigidbody2D rb;
+    Animator anim;
+    Collider2D bodyCol;
+    SpriteRenderer targetSprite;
+
+    //Layers.
+    LayerMask groundLayerMask;
+    LayerMask climbableLayerMask;
+    LayerMask phaseableLayerMask;
+    LayerMask hazardLayerMask;
 
 
-    private LayerMask groundLayerMask;
-    private LayerMask climbableLayerMask;
-    private LayerMask phaseableLayerMask;
-    private LayerMask hazardLayerMask;
-
-    private float gravScale;
-
-    private AudioManager am;
-    private GameManager gm;
+    //Managers.
+    AudioManager am;
+    GameManager gm;
 
     //Messages then methods.
     void Start()
@@ -270,23 +257,6 @@ public class Player : MonoBehaviour
 
 
     /// <summary>
-    /// Detects if the player is attacking.
-    /// </summary>
-    private void DetectAttack()
-    {
-        if (attackFlag)
-        {
-            am.Play("Attack");
-            rb.velocity += Vector2.right * 2;
-            isBusy = true;
-            attackFlag = false;
-            StartCoroutine(ExecuteAttack());
-        }
-    }
-
-
-
-    /// <summary>
     /// Handle jumping.
     /// </summary>
     private void Jump()
@@ -326,7 +296,6 @@ public class Player : MonoBehaviour
             am.Play("Jump");
             Vector2 jumpVel = new Vector2(rb.velocity.x, jumpForce);
             rb.velocity = jumpVel;
-            currentAirbornTime = 0;
         }
 
         if (isClimbing) { return; } //Stop the following statement changing grav scale when climbing.
@@ -336,7 +305,7 @@ public class Player : MonoBehaviour
         {
             if (rb.velocity.y > 0)
             {
-                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpCutHieght);
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpCutHeightMult);
             }
         }
 
@@ -356,7 +325,7 @@ public class Player : MonoBehaviour
 
         if (isClimbing)
         {
-            playerVel = new Vector2(playerInput.x * climbSpeedh * fd, playerInputRaw.y * climbSpeedv * fd);
+            playerVel = new Vector2(playerInput.x * climbSpeed.x * fd, playerInputRaw.y * climbSpeed.y * fd);
         }
         else
         {
@@ -444,53 +413,5 @@ public class Player : MonoBehaviour
         gm.ProcessPlayerDeath();
     }
 
-    private IEnumerator ExecuteAttack()
-    {
-        isAttacking = true;
-
-        anim.SetBool("isAttacking", isAttacking);
-        anim.SetBool("isRunning", false); //So the player doesn't exit straight into a run anim.
-
-        //Change colour to red.
-        float startTime = Time.time;
-        float endTime = startTime + attackMotion.keys[attackMotion.length - 1].time;
-        float currentTime = startTime;
-
-        while (currentTime <= endTime)
-        {
-            currentTime = Time.time;
-            float t = (currentTime - startTime) / (endTime - startTime);
-
-            targetSprite.color = Color.Lerp(normalColour, attackColour, t);
-
-            Vector2 dir = (direction) ? Vector2.right : -Vector2.right;
-
-            rb.velocity = dir * attackMotion.Evaluate(t * attackMotion.keys[attackMotion.length - 1].time);
-
-            yield return null;
-        }
-
-        isAttacking = false;
-
-        anim.SetBool("isAttacking", isAttacking);
-
-
-        //Change it back.
-        startTime = Time.time;
-        endTime = startTime + attackRecovery;
-        currentTime = startTime;
-
-        while (currentTime <= endTime)
-        {
-            currentTime = Time.time;
-            float t = 1 - (currentTime - startTime) / (endTime - startTime);
-
-            targetSprite.color = Color.Lerp(normalColour, attackColour, t);
-
-            yield return null;
-        }
-
-        isBusy = false;
-    }
 
 }

@@ -310,7 +310,6 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FadeIn());
 
         playerLifes = 3;
-        Player.skillHate = false;
     }
 
 

@@ -15600,6 +15600,11 @@ PrefabInstance:
       propertyPath: orthographic size
       value: 4.6
       objectReference: {fileID: 0}
+    - target: {fileID: 3211469953602864479, guid: 1a5c733c66064394bbf1387b741a23cc,
+        type: 3}
+      propertyPath: m_UsedByComposite
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a5c733c66064394bbf1387b741a23cc, type: 3}
 --- !u!1001 &1576851252

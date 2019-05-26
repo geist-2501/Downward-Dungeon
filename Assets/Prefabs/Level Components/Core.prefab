@@ -1,5 +1,157 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!50 &70867637657438764
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3211469953602864477}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!66 &2792802890796283937
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3211469953602864477}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 0
+  m_GenerationType: 0
+  m_EdgeRadius: 0
+  m_ColliderPaths:
+  - m_Collider: {fileID: 3211469953602864479}
+    m_ColliderPaths:
+    - - X: -10000000
+        Y: 54166664
+      - X: -9166667
+        Y: 53333336
+      - X: -833333
+        Y: 53333336
+      - X: 0
+        Y: 54166664
+      - X: 833333
+        Y: 53333336
+      - X: 9166667
+        Y: 53333336
+      - X: 10000000
+        Y: 54166664
+      - X: 10000000
+        Y: 60000000
+      - X: -20000000
+        Y: 60000000
+      - X: -20000000
+        Y: 54166664
+      - X: -19166668
+        Y: 53333336
+      - X: -10833333
+        Y: 53333336
+    - - X: 110000000
+        Y: 54166664
+      - X: 110000000
+        Y: 60000000
+      - X: 100000000
+        Y: 60000000
+      - X: 100000000
+        Y: 54166664
+      - X: 100833328
+        Y: 53333336
+      - X: 109166672
+        Y: 53333336
+    - - X: 40000000
+        Y: 34166668
+      - X: 40833332
+        Y: 33333332
+      - X: 49166664
+        Y: 33333332
+      - X: 50000000
+        Y: 34166668
+      - X: 50000000
+        Y: 40000000
+      - X: 30000000
+        Y: 40000000
+      - X: 30000000
+        Y: 34166668
+      - X: 30833332
+        Y: 33333332
+      - X: 39166668
+        Y: 33333332
+    - - X: 130000000
+        Y: 34166668
+      - X: 130833328
+        Y: 33333332
+      - X: 139166672
+        Y: 33333332
+      - X: 140000000
+        Y: 34166668
+      - X: 140000000
+        Y: 40000000
+      - X: 120000000
+        Y: 40000000
+      - X: 120000000
+        Y: 34166668
+      - X: 120833328
+        Y: 33333332
+      - X: 129166672
+        Y: 33333332
+  m_CompositePaths:
+    m_Paths:
+    - - {x: -1, y: 5.4166665}
+      - {x: -0.9166667, y: 5.3333335}
+      - {x: -0.0833333, y: 5.3333335}
+      - {x: 0, y: 5.4166665}
+      - {x: 0.0833333, y: 5.3333335}
+      - {x: 0.9166667, y: 5.3333335}
+      - {x: 1, y: 5.4166665}
+      - {x: 1, y: 6}
+      - {x: -2, y: 6}
+      - {x: -2, y: 5.4166665}
+      - {x: -1.9166669, y: 5.3333335}
+      - {x: -1.0833333, y: 5.3333335}
+    - - {x: 11, y: 5.4166665}
+      - {x: 11, y: 6}
+      - {x: 10, y: 6}
+      - {x: 10, y: 5.4166665}
+      - {x: 10.083333, y: 5.3333335}
+      - {x: 10.916667, y: 5.3333335}
+    - - {x: 4, y: 3.4166667}
+      - {x: 4.083333, y: 3.3333333}
+      - {x: 4.9166665, y: 3.3333333}
+      - {x: 5, y: 3.4166667}
+      - {x: 5, y: 4}
+      - {x: 3, y: 4}
+      - {x: 3, y: 3.4166667}
+      - {x: 3.0833333, y: 3.3333333}
+      - {x: 3.9166667, y: 3.3333333}
+    - - {x: 13, y: 3.4166667}
+      - {x: 13.083333, y: 3.3333333}
+      - {x: 13.916667, y: 3.3333333}
+      - {x: 14, y: 3.4166667}
+      - {x: 14, y: 4}
+      - {x: 12, y: 4}
+      - {x: 12, y: 3.4166667}
+      - {x: 12.083333, y: 3.3333333}
+      - {x: 12.916667, y: 3.3333333}
+  m_VertexDistance: 0.0005
 --- !u!1 &7969334534027783205
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,6 +265,18 @@ Transform:
 --- !u!60 &3211469952657647397 stripped
 PolygonCollider2D:
   m_CorrespondingSourceObject: {fileID: 3481361469462370793, guid: 4500560846914844796dfe9fd937c63d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2071982553681018572}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3211469953602864477 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3481361469623270289, guid: 4500560846914844796dfe9fd937c63d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2071982553681018572}
+  m_PrefabAsset: {fileID: 0}
+--- !u!19719996 &3211469953602864479 stripped
+TilemapCollider2D:
+  m_CorrespondingSourceObject: {fileID: 3481361469623270291, guid: 4500560846914844796dfe9fd937c63d,
     type: 3}
   m_PrefabInstance: {fileID: 2071982553681018572}
   m_PrefabAsset: {fileID: 0}
@@ -378,6 +542,21 @@ PrefabInstance:
     - target: {fileID: 4954846143412504, guid: 0b80c4bea466d16468447510ba0b6294, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114029647980835608, guid: 0b80c4bea466d16468447510ba0b6294,
+        type: 3}
+      propertyPath: movementSpeed
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 114029647980835608, guid: 0b80c4bea466d16468447510ba0b6294,
+        type: 3}
+      propertyPath: jumpPressedRememberTime
+      value: 0.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114029647980835608, guid: 0b80c4bea466d16468447510ba0b6294,
+        type: 3}
+      propertyPath: isGroundedRememberTime
+      value: 0.11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b80c4bea466d16468447510ba0b6294, type: 3}

@@ -12,11 +12,44 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: fdaabd4a836c0314582a4a21a943c12e
   - enabled: 1
+    path: Assets/Scenes/Options.unity
+    guid: 7b33786e8daf53144b403b4fafebb42c
+  - enabled: 1
     path: Assets/Scenes/New Levels/1_a.unity
     guid: 6afcb5603eb34d44eb495ab477de9ac2
   - enabled: 1
     path: Assets/Scenes/New Levels/1_b.unity
     guid: c00bc20016063194c8a5d1bc790860b1
+  - enabled: 1
+    path: Assets/Scenes/New Levels/1_c.unity
+    guid: b6e87a1d9454edc498fe58aacab4fd30
+  - enabled: 1
+    path: Assets/Scenes/New Levels/1_d.unity
+    guid: 4c09789231e249b448fbc2ec059e83ba
+  - enabled: 1
+    path: Assets/Scenes/New Levels/2.unity
+    guid: f6346b8036a700e428a2cd744f3cfc41
+  - enabled: 1
+    path: Assets/Scenes/New Levels/3_CH.unity
+    guid: 28949c00f3d1d5a4b83fcc2f44d7a464
+  - enabled: 1
+    path: Assets/Scenes/New Levels/4.unity
+    guid: 84aa109416b167242a14e00f39307a49
+  - enabled: 1
+    path: Assets/Scenes/New Levels/5.unity
+    guid: b0d660f8a34723147bf9abc36312c90a
+  - enabled: 1
+    path: Assets/Scenes/New Levels/6.unity
+    guid: fa8efd21a8a92db43a36f2f0f6a3248d
+  - enabled: 1
+    path: Assets/Scenes/New Levels/7_CH.unity
+    guid: 7b7e9d2f36c86514bbb1c2081213e3a0
+  - enabled: 1
+    path: Assets/Scenes/New Levels/8.unity
+    guid: 86896253551fdb74ca4776c7e26b56bd
+  - enabled: 1
+    path: Assets/Scenes/New Levels/9_CH.unity
+    guid: 41d3a4806d2920041b62173f31e2dc66
   - enabled: 1
     path: Assets/Scenes/End Game.unity
     guid: 5b280a6eba9d73a49bec5f7813113d31

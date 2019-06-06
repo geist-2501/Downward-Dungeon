@@ -20,7 +20,7 @@ public abstract class Pickup : MonoBehaviour
 
     private void Start()
     {
-        background = GetComponentInChildren<Image>();
+        background = GetComponentInChildren<Image>(true); //Include inactive.
         infoText = background.GetComponentInChildren<Text>();
         background.gameObject.SetActive(false);
         col = GetComponent<Collider2D>();

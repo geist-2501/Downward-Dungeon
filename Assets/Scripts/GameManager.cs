@@ -33,11 +33,16 @@ public class GameManager : MonoBehaviour
 
     private const string SCORE_KEY = "highscore";
     private const string CHECKPOINT_KEY = "checkpoint";
+    private const string OPT_EASY_MODE = "optEasyMode";
 
     private Text scoreText;
     private Image scorePanel;
 
     private AudioManager am;
+
+
+    //Options.
+    public bool optEasyMode;
 
 
     private void Awake()
@@ -66,8 +71,12 @@ public class GameManager : MonoBehaviour
         //Initialize player prefs.
         playerHighScore = InitializePref(SCORE_KEY);
         furthestCheckpointProgress = InitializePref(CHECKPOINT_KEY);
+
+        //Options.
+        optEasyMode = (InitializePref(OPT_EASY_MODE) == 0) ? false : true;
+
         //Set the furthest checkpoint to not be the splash or main menu!
-        if (furthestCheckpointProgress < 2) { furthestCheckpointProgress = 2; }
+        if (furthestCheckpointProgress < 3) { furthestCheckpointProgress = 3; }
     }
 
 
@@ -75,7 +84,7 @@ public class GameManager : MonoBehaviour
     /// Initialises a key in the player prefs slot.
     /// </summary>
     /// <param name="_key">Key to initialise</param>
-    /// <returns>The value, if one already existed.</returns>
+    /// <returns>The value, if one already existed, otherwise 0</returns>
     private int InitializePref(string _key)
     {
         int i;
@@ -153,10 +162,10 @@ public class GameManager : MonoBehaviour
 
         am.RebuildAudio();
 
-        if (scene.buildIndex == 0 || scene.buildIndex == 1) //Dont show score on splash and main.
+        if (scene.buildIndex == 0 || scene.buildIndex == 1 || scene.buildIndex == 2) //Dont show score on splash, main and options screens.
         {
             scorePanel.gameObject.SetActive(false);
-        } 
+        }
         else
         {
             scorePanel.gameObject.SetActive(true);
@@ -263,6 +272,31 @@ public class GameManager : MonoBehaviour
 
     }
 
+
+    public IEnumerator ReloadLevelDeathOnEasy()
+    {
+        yield return new WaitForSeconds(0.8f);
+        am.Play("Beep");
+
+        livesText.text = "EASY MODE ACTIVE ";
+        fadePanel.gameObject.SetActive(true);
+        scorePanel.gameObject.SetActive(false);
+        fadePanel.color = Color.black;
+        deathText.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(0.8f);
+        am.Play("Crunch");
+
+        livesText.text =  "EASY MODE ACTIVE, CHICKEN";
+
+        yield return new WaitForSeconds(0.8f);
+        BasicLoad(SceneManager.GetActiveScene().buildIndex);
+        deathText.gameObject.SetActive(false);
+        StartCoroutine(FadeIn());
+
+    }
+
+
     public static void UpdateCheckpoint(int _sceneIndex)
     {
         if (_sceneIndex > furthestCheckpointProgress)
@@ -274,8 +308,8 @@ public class GameManager : MonoBehaviour
 
     public static void DeleteProgress()
     {
-        PlayerPrefs.SetInt(CHECKPOINT_KEY, 2);
-        furthestCheckpointProgress = 2;
+        PlayerPrefs.SetInt(CHECKPOINT_KEY, 3);
+        furthestCheckpointProgress = 3;
         PlayerPrefs.SetInt(SCORE_KEY, 0);
         playerHighScore = 0;
     }
@@ -337,15 +371,23 @@ public class GameManager : MonoBehaviour
 
     public void ProcessPlayerDeath()
     {
-        playerLifes--;
-        if (playerLifes <= 0)
+        if (!optEasyMode)
         {
-            StartCoroutine(EndGame());
+            playerLifes--;
+            if (playerLifes <= 0)
+            {
+                StartCoroutine(EndGame());
+            }
+            else
+            {
+                StartCoroutine(ReloadLevelDeath());
+            }
         }
         else
         {
-            StartCoroutine(ReloadLevelDeath());
+            StartCoroutine(ReloadLevelDeathOnEasy());
         }
+
     }
 
 
@@ -357,5 +399,11 @@ public class GameManager : MonoBehaviour
 
         fadePanel.gameObject.SetActive(true);
         StartCoroutine(LoadLevelFade(1, 1f));
+    }
+
+    public void SetOptionsToPrefs()
+    {
+        //TODO: Remember to fill this out!
+        PlayerPrefs.SetInt(OPT_EASY_MODE, optEasyMode ? 1 : 0); // True - 1, false - 0.
     }
 }

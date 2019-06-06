@@ -13,7 +13,7 @@ public class CheckpointPickup : Pickup
         //update the game master, otherwise, don't do anything.
         if (sceneIndex > GameManager.furthestCheckpointProgress)
         {
-            GameManager.UpdateCheckpoint(SceneManager.GetActiveScene().buildIndex);
+            GameManager.UpdateCheckpoint(sceneIndex);
             optShowMessagePopup = true;
         }
         else

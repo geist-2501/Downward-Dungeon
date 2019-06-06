@@ -146,7 +146,7 @@ public class Player : MonoBehaviour
         //Cache fixed delta time.
         fd = Time.fixedDeltaTime;
 
-        if (!isBusy)
+        if (!isBusy && isAlive)
         {
             DetectClimbing();
             DetectPhasing();

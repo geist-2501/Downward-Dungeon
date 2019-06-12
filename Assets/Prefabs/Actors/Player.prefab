@@ -211,6 +211,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxPitch: 1.1
   minPitch: 0.9
+--- !u!1 &2635484415019957046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4892220638032064394}
+  - component: {fileID: 2820032504776550992}
+  m_Layer: 10
+  m_Name: Dash Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4892220638032064394
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2635484415019957046}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.25, y: 0.35, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5567956018394115743}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2820032504776550992
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2635484415019957046}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.2, y: 0.5}
+  m_EdgeRadius: 0
 --- !u!1 &5464460223171203134
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +473,7 @@ Transform:
   - {fileID: 4832851184365079120}
   - {fileID: 5005827093534357779}
   - {fileID: 5729851179487868812}
+  - {fileID: 4892220638032064394}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -461,13 +519,20 @@ MonoBehaviour:
   jumpVolDivisionFactor: 20
   jumpMaxPitch: 0.7
   jumpMinPitch: 0.5
+  dashColour: {r: 1, g: 0, b: 0, a: 1}
+  dashLength: 1
+  dashSpeed: 1000
   jumpPressedRememberTime: 0.11
   isGroundedRememberTime: 0.11
   targetSpriteGameObj: {fileID: 762717640757442153}
   feetCol: {fileID: 4251577537168058444}
   headCol: {fileID: 9085480733126846518}
   detectorCol: {fileID: 6006675388028607429}
+  dashCol: {fileID: 2820032504776550992}
   physicsMat: {fileID: 6200000, guid: a628cd1032c44054e83dbca909d12be2, type: 2}
+  ablRage: 0
+  ablOverjoy: 0
+  ablTerror: 0
   isAlive: 1
   isParalysed: 0
   isGrounded: 0

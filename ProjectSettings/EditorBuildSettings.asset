@@ -51,6 +51,9 @@ EditorBuildSettings:
     path: Assets/Scenes/New Levels/9_CH.unity
     guid: 41d3a4806d2920041b62173f31e2dc66
   - enabled: 1
+    path: Assets/Scenes/New Levels/10_Rage.unity
+    guid: eb51d5dbac2eaaa409b649b7d47e1bc4
+  - enabled: 1
     path: Assets/Scenes/End Game.unity
     guid: 5b280a6eba9d73a49bec5f7813113d31
   m_configObjects: {}

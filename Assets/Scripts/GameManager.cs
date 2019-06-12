@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour
     public static Player playerInstance;
     public static int furthestCheckpointProgress = 0;
     public static GameManager instance;
+    //Player progress.
+    public static bool ablRage;
+    public static bool ablOverjoy;
+    public static bool ablTerror;
 
     [Header("Level Management.")]
     [SerializeField] float fadeOutTime;
@@ -34,6 +38,9 @@ public class GameManager : MonoBehaviour
     private const string SCORE_KEY = "highscore";
     private const string CHECKPOINT_KEY = "checkpoint";
     private const string OPT_EASY_MODE = "optEasyMode";
+    private const string ABL_RAGE = "ablRage";
+    private const string ABL_OVERJOY = "ablOverjoy";
+    private const string ABL_TERROR = "ablTerror";
 
     private Text scoreText;
     private Image scorePanel;
@@ -74,6 +81,11 @@ public class GameManager : MonoBehaviour
 
         //Options.
         optEasyMode = (InitializePref(OPT_EASY_MODE) == 0) ? false : true;
+
+        //Abilities.
+        ablRage = (InitializePref(ABL_RAGE) == 0) ? false : true;
+        ablOverjoy = (InitializePref(ABL_OVERJOY) == 0) ? false : true;
+        ablTerror = (InitializePref(ABL_TERROR) == 0) ? false : true;
 
         //Set the furthest checkpoint to not be the splash or main menu!
         if (furthestCheckpointProgress < 3) { furthestCheckpointProgress = 3; }
@@ -287,7 +299,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.8f);
         am.Play("Crunch");
 
-        livesText.text =  "EASY MODE ACTIVE, CHICKEN";
+        livesText.text = "EASY MODE ACTIVE, CHICKEN";
 
         yield return new WaitForSeconds(0.8f);
         BasicLoad(SceneManager.GetActiveScene().buildIndex);
@@ -304,14 +316,33 @@ public class GameManager : MonoBehaviour
             furthestCheckpointProgress = _sceneIndex;
             PlayerPrefs.SetInt(CHECKPOINT_KEY, furthestCheckpointProgress);
         }
+
+        //Also write progress on abilities.
+        PlayerPrefs.SetInt(ABL_RAGE, (ablRage) ? 1 : 0);
+
+
     }
 
+
+    /// <summary>
+    /// Deletes all progress.
+    /// </summary>
     public static void DeleteProgress()
     {
         PlayerPrefs.SetInt(CHECKPOINT_KEY, 3);
         furthestCheckpointProgress = 3;
+
         PlayerPrefs.SetInt(SCORE_KEY, 0);
         playerHighScore = 0;
+
+        PlayerPrefs.SetInt(ABL_RAGE, 0);
+        ablRage = false;
+
+        PlayerPrefs.SetInt(ABL_OVERJOY, 0);
+        ablOverjoy = false;
+
+        PlayerPrefs.SetInt(ABL_TERROR, 0);
+        ablTerror = false;
     }
 
     public IEnumerator EndGame()
@@ -403,7 +434,31 @@ public class GameManager : MonoBehaviour
 
     public void SetOptionsToPrefs()
     {
-        //TODO: Remember to fill this out!
+        // TODO: Remember to fill this out!
         PlayerPrefs.SetInt(OPT_EASY_MODE, optEasyMode ? 1 : 0); // True - 1, false - 0.
+    }
+
+
+    /// <summary>
+    /// Unlocks a player ability.
+    /// </summary>
+    /// <param name="_ablType">The ability type.</param>
+    public void UnlockAbility(AbilityPickup.AbilityType _ablType)
+    {
+        switch (_ablType)
+        {
+            case AbilityPickup.AbilityType.Rage:
+                ablRage = true;
+                playerInstance.ablRage = true;
+                break;
+
+            case AbilityPickup.AbilityType.Overjoy:
+                // TODO: Complete this.
+                break;
+
+            case AbilityPickup.AbilityType.Terror:
+                // TODO: Complete this.
+                break;
+        }
     }
 }

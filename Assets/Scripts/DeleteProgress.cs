@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using G2;
 
 public class DeleteProgress : MonoBehaviour
 {
@@ -48,14 +49,14 @@ public class DeleteProgress : MonoBehaviour
     void Update()
     {
 
-        if (!escHoldFlag && Input.GetButton("Cancel"))
+        if (!escHoldFlag && InputManager.EscapeButton(G2.Button.Tap))
         {
             startTime = Time.time;
             endTime = startTime + timeToHoldFor;
             currentTime = startTime;
         }
 
-        escHoldFlag = Input.GetButton("Cancel");
+        escHoldFlag = InputManager.EscapeButton(G2.Button.Hold);
 
         Vector3 newScale;
 

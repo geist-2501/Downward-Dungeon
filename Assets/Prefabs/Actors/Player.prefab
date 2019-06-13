@@ -59,6 +59,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -465,7 +466,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7041588323056179345}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.5, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -520,8 +521,10 @@ MonoBehaviour:
   jumpMaxPitch: 0.7
   jumpMinPitch: 0.5
   dashColour: {r: 1, g: 0, b: 0, a: 1}
-  dashLength: 1
-  dashSpeed: 1000
+  dashLength: 0.1
+  dashSpeed: 1400
+  shakeDuration: 0.2
+  canDash: 0
   jumpPressedRememberTime: 0.11
   isGroundedRememberTime: 0.11
   targetSpriteGameObj: {fileID: 762717640757442153}
@@ -529,6 +532,7 @@ MonoBehaviour:
   headCol: {fileID: 9085480733126846518}
   detectorCol: {fileID: 6006675388028607429}
   dashCol: {fileID: 2820032504776550992}
+  screenShakeVCam: {fileID: 0}
   physicsMat: {fileID: 6200000, guid: a628cd1032c44054e83dbca909d12be2, type: 2}
   ablRage: 0
   ablOverjoy: 0
